@@ -128,12 +128,15 @@ describe('test insert', () => {
     res.forEach((doc) => {
       expect(doc.helms).toBeTruthy()
       expect(doc.chests).toBeTruthy()
-      console.log(JSON.stringify(doc, null, 2))
+      // console.log(JSON.stringify(doc, null, 2))
     })
   })
 
   it('should return mongo error', async () => {
-    // const res = await populate(manager)([{ $gorup: { name: 'batman' } }])
-    // expect(res[0]?.message).toBe("Unrecognized pipeline stage name: '$gorup'")
+    try {
+      await populate(manager)([{ $gorup: { name: 'batman' } }])
+    } catch (error) {
+      expect(error).toBeDefined()
+    }
   })
 })
