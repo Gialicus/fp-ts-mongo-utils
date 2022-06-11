@@ -31,9 +31,5 @@ export const populate =
   (aggregate: NEA.NonEmptyArray<Document>): Promise<Document[]> =>
     pipe(
       populateFP(manager)(aggregate),
-      T.map(
-        E.fold((e) => {
-          throw e
-        }, identity)
-      )
+      T.map(E.fold((e) => Promise.reject(e) as never, identity))
     )()
