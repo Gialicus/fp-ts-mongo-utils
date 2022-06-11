@@ -17,10 +17,6 @@ export const aggregateFP =
           E.toError
         )
       ),
-      (v) => {
-        console.log(v, null, 2)
-        return v
-      },
       TE.orElse((originalError) =>
         pipe(
           closeDb(manager),
