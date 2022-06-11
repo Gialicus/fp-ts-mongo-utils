@@ -112,6 +112,7 @@ export const flatLookupFromRef = (
 ]
 
 export const ofLookupRef = (
-  ref: PluralString
+  ref: PluralString,
+  as?: string
 ): ((init: Filter<Document>[]) => NonEmptyArray<Filter<Document>>) =>
-  flow(concat(flatLookupFromRef(ref)))
+  flow(concat(flatLookupFromRef(ref, as)))
