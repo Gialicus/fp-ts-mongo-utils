@@ -27,7 +27,13 @@ describe('test insert', () => {
   ) => Promise<Document[]>
 
   beforeAll(() => {
-    manager = injectMongo({ ...mongoURI, ref: ['helms', 'chests'] })
+    manager = injectMongo({
+      ...mongoURI,
+      ref: [
+        { kind: 'ONE', name: 'helms' },
+        { kind: 'ONE', name: 'chests' },
+      ],
+    })
     manager2 = injectMongo({ ...mongoURI, collectionName: 'helms' })
     manager3 = injectMongo({ ...mongoURI, collectionName: 'chests' })
     insertP = insert(manager)
@@ -106,11 +112,14 @@ describe('test insert', () => {
     const id3 = await insertP3({
       body: 'batvestito',
     })
+    const id4 = await insertP3({
+      body: 'batmantello',
+    })
     const id = await insertP({
       name: 'batman',
       age: 75,
       helms_id: new ObjectId(id2),
-      chests_id: new ObjectId(id3),
+      chests_id: [new ObjectId(id3), new ObjectId(id4)],
     })
     expect(id).toBeTruthy()
     const res = await populate(manager)([{ $match: { name: 'batman' } }])

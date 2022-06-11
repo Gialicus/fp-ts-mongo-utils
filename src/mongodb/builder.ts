@@ -78,7 +78,7 @@ export type MongoLookupRef = {
   }
 }
 
-const lookupFromRef = (ref: PluralString): Filter<Document> => ({
+export const lookupFromRef = (ref: PluralString): Filter<Document> => ({
   $lookup: {
     from: ref,
     localField: ref + '_id',

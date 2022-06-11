@@ -7,7 +7,7 @@ import { DbManager } from './constant'
 import { aggregateFP } from './aggregate'
 import { TaskEither } from 'fp-ts/lib/TaskEither'
 import { Document } from 'mongodb'
-import { flatLookupFromRef, PluralString } from './builder'
+import { flatLookupFromRef, lookupFromRef, PluralString } from './builder'
 import { concat } from 'fp-ts/lib/NonEmptyArray'
 // import { append } from 'fp-ts/lib/Array'
 // import { concat } from 'fp-ts/lib/NonEmptyArray'
@@ -19,7 +19,11 @@ export const populateFP =
       manager.ref,
       O.fromNullable,
       O.fold(constVoid() as never, identity),
-      NEA.map((reference) => flatLookupFromRef(reference as PluralString)),
+      NEA.map((reference) =>
+        reference.kind === 'ONE'
+          ? flatLookupFromRef(reference.name)
+          : [lookupFromRef(reference.name)]
+      ),
       NEA.reduce(aggregate, (acc, lookup) => concat(acc)(lookup)),
       aggregateFP(manager)
     )
