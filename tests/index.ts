@@ -112,9 +112,17 @@ describe('test insert', () => {
       helms_id: new ObjectId(id2),
       chests_id: new ObjectId(id3),
     })
-    console.log(id)
     expect(id).toBeTruthy()
     const res = await populate(manager)([{ $match: { name: 'batman' } }])
-    console.log(JSON.stringify(res, null, 2))
+    res.forEach((doc) => {
+      expect(doc.helms).toBeTruthy()
+      expect(doc.chests).toBeTruthy()
+    })
+  })
+
+  it('should return mongo error', async () => {
+    const res = await populate(manager)([{ $gorup: { name: 'batman' } }])
+    console.log(JSON.stringify(res[0]?.message, null, 2))
+    expect(res[0]?.message).toBe("Unrecognized pipeline stage name: '$gorup'")
   })
 })

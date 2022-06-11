@@ -27,4 +27,4 @@ export const populateFP =
 export const populate =
   (manager: DbManager) =>
   (aggregate: NEA.NonEmptyArray<Document>): Promise<Document[]> =>
-    pipe(populateFP(manager)(aggregate), T.map(E.fold(() => [], identity)))()
+    pipe(populateFP(manager)(aggregate), T.map(E.fold((e) => [e], identity)))()
