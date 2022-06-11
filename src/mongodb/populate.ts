@@ -21,8 +21,8 @@ export const populateFP =
       O.fold(constVoid() as never, identity),
       NEA.map((reference) =>
         reference.kind === 'ONE'
-          ? flatLookupFromRef(reference.name)
-          : [lookupFromRef(reference.name)]
+          ? flatLookupFromRef(reference.name, reference.as)
+          : [lookupFromRef(reference.name, reference.as)]
       ),
       NEA.reduce(aggregate, (acc, lookup) => concat(acc)(lookup)),
       aggregateFP(manager)
@@ -31,4 +31,11 @@ export const populateFP =
 export const populate =
   (manager: DbManager) =>
   (aggregate: NEA.NonEmptyArray<Document>): Promise<Document[]> =>
-    pipe(populateFP(manager)(aggregate), T.map(E.fold((e) => [e], identity)))()
+    pipe(
+      populateFP(manager)(aggregate),
+      T.map(
+        E.fold((e) => {
+          throw e
+        }, identity)
+      )
+    )()

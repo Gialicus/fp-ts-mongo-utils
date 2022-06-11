@@ -24,4 +24,5 @@ export interface DbManager {
 export type MongoReference = {
   kind: 'ONE' | 'MANY'
   name: PluralString
+  as?: string
 }

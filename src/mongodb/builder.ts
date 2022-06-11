@@ -78,12 +78,15 @@ export type MongoLookupRef = {
   }
 }
 
-export const lookupFromRef = (ref: PluralString): Filter<Document> => ({
+export const lookupFromRef = (
+  ref: PluralString,
+  as?: string
+): Filter<Document> => ({
   $lookup: {
     from: ref,
-    localField: ref + '_id',
+    localField: as ? as : ref + '_id',
     foreignField: '_id',
-    as: ref,
+    as: as ? as : ref,
   },
 })
 
@@ -100,11 +103,12 @@ const unwindFromRef = (ref: PluralString): Filter<Document> => ({
 })
 
 export const flatLookupFromRef = (
-  ref: PluralString
+  ref: PluralString,
+  as?: string
 ): NonEmptyArray<Filter<Document>> => [
-  lookupFromRef(ref),
-  matchLookupRef(ref),
-  unwindFromRef(ref),
+  lookupFromRef(ref, as),
+  matchLookupRef(as ? (as as PluralString) : ref),
+  unwindFromRef(as ? (as as PluralString) : ref),
 ]
 
 export const ofLookupRef = (
