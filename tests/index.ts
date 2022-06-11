@@ -9,7 +9,7 @@ import {
 } from '../src'
 import { aggregate } from '../src/mongodb/aggregate'
 import { matchAndGroup, ofGroup, ofMatch } from '../src/mongodb/builder'
-import { DbManager, mongoURI } from '../src/mongodb/constant'
+import { DbManager, mongoURI } from '../src/mongodb/interfaces'
 import { read } from '../src/mongodb/read'
 
 describe('test insert', () => {

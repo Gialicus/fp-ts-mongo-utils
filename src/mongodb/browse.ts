@@ -3,7 +3,7 @@ import { Collection, Document, Filter, WithId } from 'mongodb'
 import * as TE from 'fp-ts/lib/TaskEither'
 import * as T from 'fp-ts/lib/Task'
 import * as E from 'fp-ts/lib/Either'
-import { DbManager } from './constant'
+import { DbManager } from './interfaces'
 import { closeDb, connectDb } from './connection'
 
 export interface WithTotal {

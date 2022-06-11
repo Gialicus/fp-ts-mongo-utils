@@ -1,7 +1,7 @@
 import { identity, pipe } from 'fp-ts/lib/function'
 import { Filter, Document, WithId } from 'mongodb'
 import { closeDb, connectDb } from './connection'
-import { DbManager } from './constant'
+import { DbManager } from './interfaces'
 import * as TE from 'fp-ts/lib/TaskEither'
 import * as T from 'fp-ts/lib/Task'
 import * as E from 'fp-ts/lib/Either'

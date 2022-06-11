@@ -6,7 +6,7 @@ import * as O from 'fp-ts/lib/Option'
 import * as E from 'fp-ts/lib/Either'
 import { head } from 'fp-ts/lib/Array'
 import { WithTotal } from './browse'
-import { DbManager } from './constant'
+import { DbManager } from './interfaces'
 import { closeDb, connectDb } from './connection'
 
 const lazyBrowseAggregate =

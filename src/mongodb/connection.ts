@@ -1,6 +1,6 @@
 import { pipe } from 'fp-ts/lib/function'
 import { MongoClient } from 'mongodb'
-import { DbManager, DbEnv } from './constant'
+import { DbManager, DbEnv } from './interfaces'
 import * as TE from 'fp-ts/lib/TaskEither'
 import * as E from 'fp-ts/lib/Either'
 
