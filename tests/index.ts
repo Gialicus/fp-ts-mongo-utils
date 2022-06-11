@@ -31,7 +31,7 @@ describe('test insert', () => {
       ...mongoURI,
       ref: [
         { kind: 'ONE', name: 'helms' },
-        { kind: 'ONE', name: 'chests' },
+        { kind: 'MANY', name: 'chests' },
       ],
     })
     manager2 = injectMongo({ ...mongoURI, collectionName: 'helms' })
@@ -126,6 +126,7 @@ describe('test insert', () => {
     res.forEach((doc) => {
       expect(doc.helms).toBeTruthy()
       expect(doc.chests).toBeTruthy()
+      console.log(JSON.stringify(doc, null, 2))
     })
   })
 
