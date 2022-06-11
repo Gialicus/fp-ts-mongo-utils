@@ -2,24 +2,22 @@ import { pipe } from 'fp-ts/lib/function'
 import * as TE from 'fp-ts/lib/TaskEither'
 import * as T from 'fp-ts/lib/Task'
 import * as E from 'fp-ts/lib/Either'
-import { Collection, OptionalId, Document } from 'mongodb'
+import { OptionalId, Document } from 'mongodb'
 import { DbManager } from './constant'
 import { closeDb, connectDb } from './connection'
-
-export const chainInsert =
-  (collection: Collection<Document>) =>
-  (document: OptionalId<Document>): TE.TaskEither<Error, string> =>
-    pipe(
-      TE.tryCatch(() => collection.insertOne(document), E.toError),
-      TE.map((inserted) => inserted.insertedId.toString())
-    )
 
 export const insertFP =
   (manager: DbManager) =>
   (document: OptionalId<Document>): TE.TaskEither<Error, string> =>
     pipe(
       connectDb(manager),
-      TE.chain(() => chainInsert(manager.collection)(document)),
+      TE.chain(() =>
+        pipe(
+          TE.tryCatch(() => manager.collection.insertOne(document), E.toError),
+          TE.map((inserted) => inserted.insertedId.toString()),
+          TE.chainFirst(() => closeDb(manager))
+        )
+      ),
       TE.orElse((originalError) =>
         pipe(
           closeDb(manager),

@@ -53,7 +53,15 @@ export const browseAFP =
   (query: Filter<Document>): TE.TaskEither<Error, WithTotal> =>
     pipe(
       connectDb(manager),
-      TE.tryCatchK(lazyBrowseAggregate(query)(manager.collection), E.toError),
+      TE.chain(() =>
+        pipe(
+          TE.tryCatch(
+            lazyBrowseAggregate(query)(manager.collection),
+            E.toError
+          ),
+          TE.chainFirst(() => closeDb(manager))
+        )
+      ),
       TE.orElse((originalError) =>
         pipe(
           closeDb(manager),

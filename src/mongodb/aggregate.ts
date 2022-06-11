@@ -12,9 +12,12 @@ export const aggregateFP =
     pipe(
       connectDb(manager),
       TE.chain(() =>
-        TE.tryCatch(
-          () => manager.collection.aggregate(aggregate).toArray(),
-          E.toError
+        pipe(
+          TE.tryCatch(
+            () => manager.collection.aggregate(aggregate).toArray(),
+            E.toError
+          ),
+          TE.chainFirst(() => closeDb(manager))
         )
       ),
       TE.orElse((originalError) =>

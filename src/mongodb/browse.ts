@@ -4,7 +4,7 @@ import * as TE from 'fp-ts/lib/TaskEither'
 import * as T from 'fp-ts/lib/Task'
 import * as E from 'fp-ts/lib/Either'
 import { DbManager } from './constant'
-import { connectDb } from './connection'
+import { closeDb, connectDb } from './connection'
 
 export interface WithTotal {
   items: WithId<Document>[]
@@ -36,6 +36,7 @@ export const browseFP =
       connectDb(manager),
       TE.bind('items', find(manager.collection)(query)),
       TE.bind('total', total(manager.collection)(query)),
+      TE.chainFirst(() => closeDb(manager)),
       TE.orElse((originalError) =>
         pipe(
           TE.tryCatch(() => manager.client.close(), E.toError),

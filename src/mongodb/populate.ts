@@ -9,8 +9,6 @@ import { TaskEither } from 'fp-ts/lib/TaskEither'
 import { Document } from 'mongodb'
 import { flatLookupFromRef, lookupFromRef } from './builder'
 import { concat } from 'fp-ts/lib/NonEmptyArray'
-// import { append } from 'fp-ts/lib/Array'
-// import { concat } from 'fp-ts/lib/NonEmptyArray'
 
 export const populateFP =
   (manager: DbManager) =>

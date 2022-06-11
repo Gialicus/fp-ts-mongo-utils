@@ -11,7 +11,12 @@ export const readFP =
   (query: Filter<Document>): TE.TaskEither<Error, WithId<Document> | null> =>
     pipe(
       connectDb(manager),
-      TE.tryCatchK(() => manager.collection.findOne(query), E.toError),
+      TE.chain(() =>
+        pipe(
+          TE.tryCatch(() => manager.collection.findOne(query), E.toError),
+          TE.chainFirst(() => closeDb(manager))
+        )
+      ),
       TE.orElse((originalError) =>
         pipe(
           closeDb(manager),
