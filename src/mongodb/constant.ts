@@ -4,7 +4,7 @@ import { Collection, MongoClient, Document } from 'mongodb'
 export const mongoURI: DbEnv = {
   url: 'mongodb://localhost:27017',
   dbName: 'gialifp',
-  collectionName: 'heros',
+  collectionName: 'heroes',
 }
 
 export interface DbEnv {
