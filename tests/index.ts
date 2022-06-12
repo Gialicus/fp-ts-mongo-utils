@@ -4,6 +4,7 @@ import {
   browseA,
   injectMongo,
   insert,
+  insertMany,
   populate,
   WithTotal,
 } from '../src'
@@ -52,6 +53,20 @@ describe('test insert', () => {
       age: 75,
     })
     expect(id).toBeTruthy()
+  })
+  it('should return array of string', async () => {
+    const ids = await insertMany(manager)([
+      {
+        name: 'giali1',
+        age: 75,
+      },
+      {
+        name: 'giali2',
+        age: 75,
+      },
+    ])
+    console.log(ids)
+    expect(ids).toBeTruthy()
   })
 
   it('should browse sucessfully', async () => {
