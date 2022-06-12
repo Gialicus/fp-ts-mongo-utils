@@ -10,8 +10,19 @@ import {
 } from '../src'
 import { aggregate } from '../src/mongodb/aggregate'
 import { matchAndGroup, ofGroup, ofMatch } from '../src/mongodb/builder'
-import { DbManager, mongoURI } from '../src/mongodb/interfaces'
+import { DbEnv, DbManager } from '../src/mongodb/interfaces'
 import { read } from '../src/mongodb/read'
+
+const mongoURI: DbEnv = {
+  url: 'mongodb://localhost:27017',
+  dbName: 'gialifp',
+  collectionName: 'heroes',
+  ref: [
+    { kind: 'ONE', name: 'helms' },
+    { kind: 'ONE', name: 'helms', as: 'broken' },
+    { kind: 'MANY', name: 'chests' },
+  ],
+}
 
 describe('test insert', () => {
   let manager: DbManager
@@ -28,14 +39,7 @@ describe('test insert', () => {
   ) => Promise<Document[]>
 
   beforeAll(() => {
-    manager = injectMongo({
-      ...mongoURI,
-      ref: [
-        { kind: 'ONE', name: 'helms' },
-        { kind: 'ONE', name: 'helms', as: 'broken' },
-        { kind: 'MANY', name: 'chests' },
-      ],
-    })
+    manager = injectMongo(mongoURI)
     manager2 = injectMongo({ ...mongoURI, collectionName: 'helms' })
     manager3 = injectMongo({ ...mongoURI, collectionName: 'chests' })
     insertP = insert(manager)
