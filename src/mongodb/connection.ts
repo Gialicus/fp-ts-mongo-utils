@@ -27,6 +27,9 @@ const getCollection = (env: DbEnv) => (client: MongoClient) => ({
   client: client,
   collection: client.db(env.dbName).collection(env.collectionName),
   ref: env.ref,
+  dbName: env.dbName,
+  collectionName: env.collectionName,
+  url: env.url,
 })
 
 export const injectMongo = (env: DbEnv): DbManager =>
