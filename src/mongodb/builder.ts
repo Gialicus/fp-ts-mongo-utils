@@ -116,17 +116,3 @@ export const ofLookupRef = (
   as?: string
 ): ((init: Filter<Document>[]) => NonEmptyArray<Filter<Document>>) =>
   flow(concat(flatLookupFromRef(ref, as)))
-
-export type ProjectField = 0 | 1 | string
-
-export type ProjectAg<T extends { _id: ProjectField } = { _id: ProjectField }> =
-  {
-    $project: {
-      [K in keyof T]: ProjectField
-    }
-  }
-
-export const ofProject = (
-  project: ProjectAg
-): ((init: Filter<Document>[]) => NonEmptyArray<Filter<Document>>) =>
-  flow(aggregateBuilder(project))
