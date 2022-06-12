@@ -19,9 +19,6 @@ export interface DbManager {
   client: MongoClient
   collection: Collection<Document>
   ref?: NEA.NonEmptyArray<MongoReference>
-  dbName: string
-  collectionName: string
-  url: string
 }
 
 export type MongoReference = {

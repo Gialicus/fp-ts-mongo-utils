@@ -4,7 +4,6 @@ import {
   browseA,
   injectMongo,
   insert,
-  insertMany,
   populate,
   WithTotal,
 } from '../src'
@@ -20,7 +19,6 @@ describe('test insert', () => {
   let insertP: (document: OptionalId<Document>) => Promise<string>
   let insertP2: (document: OptionalId<Document>) => Promise<string>
   let insertP3: (document: OptionalId<Document>) => Promise<string>
-  let insertManyP: (documents: OptionalId<Document>[]) => Promise<any>
   let browseP: (query: Filter<Document>) => Promise<WithTotal>
   let aggregateP: (query: Filter<Document>) => Promise<WithTotal>
   let readOne: (query: Filter<Document>) => Promise<WithId<Document> | null>
@@ -46,7 +44,6 @@ describe('test insert', () => {
     aggregateP = browseA(manager)
     readOne = read(manager)
     aggregationFramework = aggregate(manager)
-    insertManyP = insertMany(manager)
   })
 
   it('should return string', async () => {
@@ -54,21 +51,6 @@ describe('test insert', () => {
       name: 'giali',
       age: 75,
     })
-    expect(id).toBeTruthy()
-  })
-
-  it('should insertMany', async () => {
-    const id = await insertManyP([
-      {
-        name: 'superman',
-        age: 75,
-      },
-      {
-        name: 'robin',
-        age: 30,
-      },
-    ])
-    console.log(id)
     expect(id).toBeTruthy()
   })
 
